@@ -11,13 +11,13 @@ const validateUser = [
     .trim()
     .isAlpha()
     .withMessage(`First name ${alphaErr}`)
-    .isLength({ min: 1, max: 10 })
+    .isLength({ min: 2, max: 10 })
     .withMessage(`First name ${lengthErr}`),
   body('lastName')
     .trim()
     .isAlpha()
     .withMessage(`Last name ${alphaErr}`)
-    .isLength({ min: 1, max: 10 })
+    .isLength({ min: 2, max: 10 })
     .withMessage(`Last name ${lengthErr}`),
 ];
 
@@ -35,9 +35,20 @@ exports.usersCreateGet = (req, res) => {
   });
 };
 
-exports.usersCreatePost = (req, res) => {
-  const { firstName, lastName } = req.body;
-  console.log(firstName, lastName);
-  usersStorage.addUser({ firstName, lastName });
-  res.redirect('/');
-};
+// We can pass an entire array of middleware validations to our controller.
+exports.usersCreatePost = [
+  validateUser,
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render('pages/createUser', {
+        title: 'Create user',
+        errors: errors.array(),
+      });
+    }
+    const { firstName, lastName } = req.body;
+    console.log(firstName, lastName);
+    usersStorage.addUser({ firstName, lastName });
+    res.redirect('/');
+  },
+];

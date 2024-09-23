@@ -5,6 +5,7 @@
     <title><%= title %></title>
   </head>
   <body>
+    <%- include("../partials/errors.ejs") %>
     <h1><%= title %></h1>
     <form action="/create" method="POST">
       <label for="firstName">First Name: </label>
