@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Users</title>
+  </head>
+  <body>
+    <h1>Search Users</h1>
+
+    <form action="/search/results" method="GET">
+      <div>
+        <label for="firstName">First Name:</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          value="<%= query ? query.firstName : '' %>"
+        />
+      </div>
+
+      <div>
+        <label for="lastName">Last Name:</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          value="<%= query ? query.lastName : '' %>"
+        />
+      </div>
+
+      <button type="submit">Search</button>
+    </form>
+    <a href="/">Back to home</a>
+
+    <% if (results) { %>
+    <h2>Search Results</h2>
+    <ul>
+      <% if (results.length > 0) { %> <% results.forEach(user => { %>
+      <li><%= user.firstName %> <%= user.lastName %> - ID: <%= user.id %></li>
+      <% }) %> <% } else { %>
+      <li>No users found.</li>
+      <% } %>
+    </ul>
+    <% } %>
+  </body>
+</html>

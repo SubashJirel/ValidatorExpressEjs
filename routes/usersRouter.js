@@ -13,4 +13,8 @@ usersRouter.post('/:id/update', usersController.usersUpdatePost);
 //delete
 usersRouter.post('/:id/delete', usersController.usersDeletePost);
 
+//search
+usersRouter.get('/search', usersController.usersSearchGet);
+usersRouter.get('/search/results', usersController.usersSearchResults);
+
 module.exports = usersRouter;

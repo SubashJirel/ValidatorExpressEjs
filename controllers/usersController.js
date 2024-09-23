@@ -87,3 +87,29 @@ exports.usersDeletePost = (req, res) => {
   usersStorage.deleteUser(req.params.id);
   res.redirect('/');
 };
+
+//search functionality
+
+// GET: Display search form
+exports.usersSearchGet = (req, res) => {
+  res.render('pages/search', { results: null, query: null });
+};
+
+// GET: Handle search query
+exports.usersSearchResults = (req, res) => {
+  const { firstName, lastName } = req.query;
+
+  // Fetch all users
+  const users = usersStorage.getUsers();
+
+  // Filter users by first name or last name
+  const results = users.filter((user) => {
+    return (
+      (firstName &&
+        user.firstName.toLowerCase().includes(firstName.toLowerCase())) ||
+      (lastName && user.lastName.toLowerCase().includes(lastName.toLowerCase()))
+    );
+  });
+
+  res.render('pages/search', { results, query: req.query });
+};
