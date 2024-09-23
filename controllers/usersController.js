@@ -52,3 +52,14 @@ exports.usersCreatePost = [
     res.redirect('/');
   },
 ];
+
+exports.usersUpdateGet = (req, res) => {
+  const updateId = req.params.id;
+  const selectedUser = usersStorage.getUser(updateId);
+  res.render('pages/updateUser', {
+    title: 'Update this user',
+    user: selectedUser,
+  });
+  console.log('here is your selected user');
+  console.log(selectedUser);
+};
